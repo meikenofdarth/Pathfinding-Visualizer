@@ -28,14 +28,15 @@
 }
 
 .node-visited {
-  background-color: #ffeb3b; /* Yellow */
+  background-color: #ffe082; /* soft yellow */
   animation: visitedAnimation 0.3s ease;
 }
 
 .node-shortest-path {
-  background-color: #00b0ff; /* Light Blue */
+  background-color: #4fc3f7; /* soft light blue */
   animation: pathAnimation 0.3s ease;
 }
+
 
 /* Hover for interaction */
 .node:hover {

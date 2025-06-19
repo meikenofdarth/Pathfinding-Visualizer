@@ -3,12 +3,56 @@ import { dijkstra } from '../algorithms/dijkstra';
 import  aStar  from '../algorithms/aStar';
 import greedy from '../algorithms/greedy';
 import { dfs } from '../algorithms/dfs';
-import { bidirectionalBFS } from '../algorithms/bidirectionalBFS';
 import { bfs } from '../algorithms/bfs';
 import Node from './Node/Node'; // Node component for rendering each grid cell
 import './visualizer.css';
 
 const PathfindingVisualizer = ({ algorithm, startRow, startCol, endRow, endCol }) => {
+
+  // Add these two states at the top
+  const [animationSpeed, setAnimationSpeed] = useState(10); // Default fast
+  const [clearKey, setClearKey] = useState(0); // Trigger clear all grid
+
+  // ✨ New Clear All function
+  const clearAllGrid = () => {
+    const clearedGrid = getInitialGrid();
+    setGrid(clearedGrid);
+    setClearKey(prev => prev + 1); // Used to force reset
+  };
+
+  // ✨ Toggle Speed Handler
+  const toggleSpeed = () => {
+    setAnimationSpeed(prevSpeed => (prevSpeed === 10 ? 50 : 10));
+  };
+
+  // ✨ Update animateAlgorithm
+  const animateAlgorithm = (visitedNodesInOrder, nodesInShortestPathOrder) => {
+    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+      if (i === visitedNodesInOrder.length) {
+        setTimeout(() => {
+          animateShortestPath(nodesInShortestPathOrder);
+        }, animationSpeed * i);
+        return;
+      }
+      setTimeout(() => {
+        const node = visitedNodesInOrder[i];
+        if ((node.row === startRow && node.col === startCol) || (node.row === endRow && node.col === endCol)) {
+          return;
+        }
+        document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-visited';
+      }, animationSpeed * i);
+    }
+  };
+
+  const animateShortestPath = (nodesInShortestPathOrder) => {
+    for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
+      setTimeout(() => {
+        const node = nodesInShortestPathOrder[i];
+        document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
+      }, animationSpeed * i);
+    }
+  };
+
   const [grid, setGrid] = useState([]);
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
 
@@ -101,9 +145,6 @@ const PathfindingVisualizer = ({ algorithm, startRow, startCol, endRow, endCol }
       case 'dfs':
         path = dfs(newGrid, startNode, endNode);
         break;
-      case 'bidirectional':
-        path = bidirectionalBFS(newGrid, startNode, endNode);
-        break;
       default:
         break;
     }
@@ -117,44 +158,50 @@ const PathfindingVisualizer = ({ algorithm, startRow, startCol, endRow, endCol }
   };
 
 
-  const animateAlgorithm = (visitedNodesInOrder, nodesInShortestPathOrder) => {
-    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
-      if (i === visitedNodesInOrder.length) {
-        setTimeout(() => {
-          animateShortestPath(nodesInShortestPathOrder);
-        }, 10 * i);
-        return;
-      }
-      setTimeout(() => {
-        const node = visitedNodesInOrder[i];
-        if ((node.row === startRow && node.col === startCol) || (node.row === endRow && node.col === endCol)) {
-          return;
-        }
-        document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-visited';
-      }, 10 * i);
-    }
-  };
+  // const animateAlgorithm = (visitedNodesInOrder, nodesInShortestPathOrder) => {
+  //   for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+  //     if (i === visitedNodesInOrder.length) {
+  //       setTimeout(() => {
+  //         animateShortestPath(nodesInShortestPathOrder);
+  //       }, 10 * i);
+  //       return;
+  //     }
+  //     setTimeout(() => {
+  //       const node = visitedNodesInOrder[i];
+  //       if ((node.row === startRow && node.col === startCol) || (node.row === endRow && node.col === endCol)) {
+  //         return;
+  //       }
+  //       document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-visited';
+  //     }, 10 * i);
+  //   }
+  // };
 
-  const animateShortestPath = (nodesInShortestPathOrder) => {
-    for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
-      setTimeout(() => {
-        const node = nodesInShortestPathOrder[i];
-        // if ((node.row === startRow && node.col === startCol) || (node.row === endRow && node.col === endCol)) {
-        //   return;
-        // }
-        document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
-      }, 50 * i);
-    }
-  };
+  // const animateShortestPath = (nodesInShortestPathOrder) => {
+  //   for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
+  //     setTimeout(() => {
+  //       const node = nodesInShortestPathOrder[i];
+  //       // if ((node.row === startRow && node.col === startCol) || (node.row === endRow && node.col === endCol)) {
+  //       //   return;
+  //       // }
+  //       document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
+  //     }, 50 * i);
+  //   }
+  // };
 
   return (
     <>
       <div className="visualize-button-container">
-        <button className="butt" onClick={() => visualizeAlgorithm()}>
+        <button className="butt" onClick={visualizeAlgorithm}>
           Visualize {algorithm.charAt(0).toUpperCase() + algorithm.slice(1)}
         </button>
+        <button className="butt" onClick={clearAllGrid}>
+          Clear All
+        </button>
+        <button className="butt" onClick={toggleSpeed}>
+          Toggle Speed (Current: {animationSpeed}ms)
+        </button>
       </div>
-      <div className="grid">
+      {/* <div className="grid">
         {grid.map((row, rowIdx) => (
           <div key={rowIdx} className="grid-row">
             {row.map((node, nodeIdx) => (
@@ -168,6 +215,25 @@ const PathfindingVisualizer = ({ algorithm, startRow, startCol, endRow, endCol }
                 onMouseDown={(row, col) => handleMouseDown(row, col)}
                 onMouseEnter={(row, col) => handleMouseEnter(row, col)}
                 onMouseUp={() => handleMouseUp()}
+              />
+            ))}
+          </div>
+        ))}
+      </div> */}
+      <div className="grid">
+        {grid.map((row, rowIdx) => (
+          <div key={`${clearKey}-${rowIdx}`} className="grid-row">
+            {row.map((node, nodeIdx) => (
+              <Node
+                key={nodeIdx}
+                col={node.col}
+                row={node.row}
+                isStart={node.row === startRow && node.col === startCol}
+                isFinish={node.row === endRow && node.col === endCol}
+                isWall={node.isWall}
+                onMouseDown={(row, col) => handleMouseDown(row, col)}
+                onMouseEnter={(row, col) => handleMouseEnter(row, col)}
+                onMouseUp={handleMouseUp}
               />
             ))}
           </div>

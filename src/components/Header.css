@@ -1,0 +1,24 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  padding: 6px 16px; /* reduced padding */
+  background-color: var(--background);
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+  height: 50px; /* optional fixed height */
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.app-logo {
+  height: 28px; /* smaller logo */
+  margin-right: 10px;
+}
+
+.app-title {
+  font-size: 18px; /* smaller text */
+  font-weight: 500;
+  color: #333;
+}

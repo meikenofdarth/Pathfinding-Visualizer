@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PathfindingVisualizer from './visualizer/visualizer';
+import Header from './components/Header'; // 🔥 Add this
 import './App.css';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
 
   return (
     <div className="App">
+      <Header /> {/* 🔥 Add this */}
       <div className="container">
         <div className="select-container">
           <label htmlFor="algorithm-select">Select Algorithm:</label>
@@ -20,7 +22,6 @@ function App() {
             <option value="bfs">BFS</option>
             <option value="greedy">Greedy Best-First</option>
             <option value="dfs">DFS (Recursive)</option>
-            <option value="bidirectional">Bidirectional BFS</option>
           </select>
         </div>
         <div className="coordinates-container">

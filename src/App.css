@@ -20,6 +20,27 @@ body {
   margin: 10px auto;
 }
 
+select {
+  padding: 10px 12px;
+  margin: 6px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  width: 160px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: border 0.2s ease;
+}
+
+select:hover {
+  border-color: #007bff;
+}
+
+select:focus {
+  outline: none;
+  border-color: #0056b3;
+}
+
 
 .select-container,
 .coordinates-container {
@@ -60,4 +81,22 @@ button:hover,
 .butt:hover {
   transform: translateY(-2px);
   background: linear-gradient(to right, #0056b3, #003f80);
+}
+
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .select-container,
+  .coordinates-container {
+    width: 90%;
+  }
+
+  select,
+  input {
+    width: 100%;
+  }
 }
