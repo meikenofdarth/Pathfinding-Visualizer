@@ -1,0 +1,76 @@
+/* PathfindingVisualizer.css */
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 40px;
+  overflow-x: auto;
+}
+
+.grid-row {
+  display: flex;
+}
+
+
+
+
+.butt {
+  margin: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.butt:hover {
+  background-color: #0056b3;
+}
+
+.visualize-button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* PathfindingVisualizer.css */
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.grid-row {
+  display: flex;
+}
+
+.butt {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.butt:hover {
+  background-color: #0056b3;
+}
+
+.visualize-button-container,
+.button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.node-over-wall {
+  background-color: darkred !important;
+}

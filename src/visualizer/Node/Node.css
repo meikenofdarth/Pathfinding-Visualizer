@@ -1,0 +1,63 @@
+.node {
+  width: 20px;
+  height: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  display: inline-block;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+/* Special Nodes */
+.node-start {
+  background-color: #00c853; /* Green */
+  border: 2px solid #1b5e20;
+  box-shadow: 0 0 5px #00c85388;
+}
+
+.node-finish {
+  background-color: #d50000; /* Red */
+  border: 2px solid #b71c1c;
+  box-shadow: 0 0 5px #d5000088;
+}
+
+.node-wall {
+  background-color: #424242; /* Dark Gray */
+  border: 1px solid #212121;
+}
+
+.node-visited {
+  background-color: #ffeb3b; /* Yellow */
+  animation: visitedAnimation 0.3s ease;
+}
+
+.node-shortest-path {
+  background-color: #00b0ff; /* Light Blue */
+  animation: pathAnimation 0.3s ease;
+}
+
+/* Hover for interaction */
+.node:hover {
+  transform: scale(1.08);
+  cursor: pointer;
+}
+
+/* Animation Keyframes */
+@keyframes visitedAnimation {
+  0% {
+    background-color: #ffffff;
+  }
+  100% {
+    background-color: #ffeb3b;
+  }
+}
+
+@keyframes pathAnimation {
+  0% {
+    background-color: #ffffff;
+  }
+  100% {
+    background-color: #00b0ff;
+  }
+}
